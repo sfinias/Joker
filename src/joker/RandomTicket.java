@@ -1,67 +1,45 @@
 package joker;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 
-public class RandomTicket extends WinningTicket {
-    
-    private final String time;
-    private final double price;
-    private int id;
+public class RandomTicket extends Ticket {
+
+    private List<Integer> pool;
     
     public RandomTicket(int pickedNumbers, int pickedJokers){
-        super(pickedNumbers,pickedJokers);
-        this.time = getDate();
-        this.price = calculatePrice();
-        this.id = IDGen.getID();
-    }
-    
-    private String getDate(){
-        ZonedDateTime date = ZonedDateTime.now();
-        return DateTimeFormatter.ofPattern("dd/MM/uuuu kk:mm:ss").format(date);
-    }
-    
-    private double calculatePrice(){
-        long mainCombinations = factorial(getMainNumbers().size())/(factorial(5)*factorial(getMainNumbers().size()-5));
-        long jokerCombinations = getJokerNumbers().size();
-        return mainCombinations*jokerCombinations*0.5;
-    }
-    
-    private long factorial(long n){
-        long result = 1;
-        for (long i = 2; i <= n; i++) {
-            result *= i;
-        }
-        return result;
+        super(IDGen.getID());
+        setMainNumbers(spinTheWheel(45,pickedNumbers));
+        setJokerNumbers(spinTheWheel(20, pickedJokers));
+        setPrice(calculatePrice());
     }
 
-    public boolean hasWon(WinningTicket winningTicket){
-        
-        int count = 0;
-        for (int i:winningTicket.getMainNumbers()){
-            if (getMainNumbers().contains(i)) count++;
-            if (count ==2) return true;
-        }
-        return false;
-//        boolean mainWasFound = getMainNumbers().containsAll(winningTicket.getMainNumbers());
-//        boolean jokerWasFound = getJokerNumbers().containsAll(winningTicket.getJokerNumbers());
-//        return mainWasFound && jokerWasFound;
+    public RandomTicket(int id){
+        super(id);
+        setMainNumbers(spinTheWheel(45,5));
+        setJokerNumbers(spinTheWheel(20, 1));
+        setPrice(calculatePrice());
     }
-    
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder("Ticket ID: "+this.id);
-        sb.append("\nTime played: "+this.time);
-        sb.append("\nMain numbers: ");
-        for (int i:getMainNumbers()){
-            sb.append(i+" ");
+
+    private TreeSet<Integer> spinTheWheel(int poolSize, int pickedNumbers){
+        fillPool(poolSize);
+        TreeSet<Integer> set=new TreeSet<>();
+        int size=poolSize;
+        for(int i=0;i<pickedNumbers;i++){
+            int n=(int) (Math.random()*size);
+            set.add(pool.get(n));
+            pool.remove(n);
+            size--;
         }
-        sb.append("\nJokers: ");
-        for (int i:getJokerNumbers()){
-            sb.append(i+" ");
+        return set;
+    }
+
+    private void fillPool(int poolSize){
+        pool= new ArrayList<>();
+        for(int i=1;i<=poolSize;i++){
+            pool.add(i);
         }
-        sb.append("\nPrice: "+this.price+"€");
-        return sb.toString();
     }
 }

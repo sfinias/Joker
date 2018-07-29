@@ -10,7 +10,7 @@ public class Player {
     private String lastName;
     private int taxNumber;
     private String iban;
-    private Set<Object> ticketLog = new HashSet<>();
+    private Set<Ticket> ticketLog = new HashSet<>();
 
     public Player(String firstName, String lastName, int taxNumber, String iban) {
         this.firstName = firstName;
@@ -23,7 +23,7 @@ public class Player {
         return iban;
     }
 
-    public Set<Object> getTicketLog() {
+    public Set<Ticket> getTicketLog() {
         return ticketLog;
     }
     
@@ -52,7 +52,7 @@ public class Player {
     }
     
     public void play(){
-       Ticket ticket = new Ticket();
+       ManualTicket ticket = new ManualTicket();
        System.out.println(ticket);
        ticketLog.add(ticket);
    }
@@ -67,8 +67,8 @@ public class Player {
    
    public boolean hasWon(WinningTicket winningTicket){
        for (Object t:ticketLog){
-           if (t instanceof Ticket){
-               Ticket ticket = (Ticket) t;
+           if (t instanceof ManualTicket){
+               ManualTicket ticket = (ManualTicket) t;
                if (ticket.hasWon(winningTicket)) return true;
            }
            else{

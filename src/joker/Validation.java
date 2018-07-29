@@ -57,12 +57,11 @@ public class Validation {
                 break;
             }
             int num = Integer.parseInt(str);
-            if (set.contains(num)){
+            if (!set.add(num)){
                 System.out.println("You can't type in numbers duplicate times");
                 set.clear();
                 break;
             }
-            set.add(num);
         }
         return set;
     }
