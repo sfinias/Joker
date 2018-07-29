@@ -8,8 +8,8 @@ import java.util.TreeSet;
 
 public class Ticket {
 
-    private Set<Integer> mainNums=new TreeSet<>();
-    private Set<Integer> jokerNums=new TreeSet<>();
+    private Set<Integer> mainNumbers =new TreeSet<>();
+    private Set<Integer> jokerNumbers =new TreeSet<>();
     private Scanner scanner;
     private final String time;
     private final double price;
@@ -23,12 +23,12 @@ public class Ticket {
         this.id = IDGen.getID();
     }
 
-    public Set<Integer> getMainNums() {
-        return mainNums;
+    public Set<Integer> getMainNumbers() {
+        return mainNumbers;
     }
 
-    public Set<Integer> getJokerNums() {
-        return jokerNums;
+    public Set<Integer> getJokerNumbers() {
+        return jokerNumbers;
     } 
 
     public String getTime() {
@@ -40,62 +40,32 @@ public class Ticket {
     }
     
     private void pickMain(){
+        int max = 45;
+        int min = 1;
+        int count = 5;
         while (true){
-            System.out.println("Type in more than 5 unique numbers for the main numbers in the range 1-45");
-            scanner = new Scanner(System.in);
-            String str = scanner.nextLine();
-            scanner = new Scanner(str);
-            while(scanner.hasNext()){
-                str = scanner.next();
-                if (!str.matches("[0-9]+") || (Integer.valueOf(str)<1 || Integer.valueOf(str)>45)){
-                    System.out.println("Can only accept numbers in the range 1-45");
-                    mainNums.clear();
-                    break;
-                }
-                int num = Integer.parseInt(str);
-                if (mainNums.contains(num)){
-                    System.out.println("You can't type in numbers duplicate times");
-                    mainNums.clear();
-                    break;
-                }
-                mainNums.add(num);
-            }
-            if (!mainNums.isEmpty() && mainNums.size()<5){
+            System.out.println("Type in more than " + count + " unique numbers for the main numbers in the range " + min + "-" + max);
+            this.mainNumbers = Validation.readInts(min, max);
+            if (!mainNumbers.isEmpty() && mainNumbers.size()<5){
                 System.out.println("You must type in at least 5 numbers");
-                mainNums.clear();
-            }else if (mainNums.size()>=5) {
+                mainNumbers.clear();
+            }else if (mainNumbers.size()>=5) {
                 break;
             }
         }
-        scanner.close();
     }
     
     private void pickJokers(){
+        int max = 20;
+        int min = 1;
+        int count = 1;
        while (true){
-            System.out.println("Type in more than 1 unique numbers for the joker in the range 1-20");
-            scanner = new Scanner(System.in);
-            String str = scanner.nextLine();
-            scanner = new Scanner(str);
-            while(scanner.hasNext()){
-                str = scanner.next();
-                if (!str.matches("[0-9]+") || (Integer.valueOf(str)<1 || Integer.valueOf(str)>20)){
-                    System.out.println("Can only accept numbers in the range 1-20");
-                    jokerNums.clear();
-                    break;
-                }
-                int num = Integer.parseInt(str);
-                if (jokerNums.contains(num)){
-                    System.out.println("You can't type in numbers duplicate times");
-                    jokerNums.clear();
-                    break;
-                }
-                jokerNums.add(num);
-            }
-            if (jokerNums.size()>=1) {
-                break;
-            }
+           System.out.println("Type in more than " + count + " unique numbers for the joker in the range 1-20");
+           jokerNumbers = Validation.readInts(min, max);
+           if (jokerNumbers.size()>=1) {
+               break;
+           }
         }
-        scanner.close();
     }
     
     private String getDate(){
@@ -104,8 +74,8 @@ public class Ticket {
     }
     
     private double calculatePrice(){
-        long mainCombinations = factorial(this.mainNums.size())/(factorial(5)*factorial(this.mainNums.size()-5));
-        long jokerCombinations = this.jokerNums.size();
+        long mainCombinations = factorial(this.mainNumbers.size())/(factorial(5)*factorial(this.mainNumbers.size()-5));
+        int jokerCombinations = this.jokerNumbers.size();
         return mainCombinations*jokerCombinations*0.5;
     }
     
@@ -120,13 +90,13 @@ public class Ticket {
     public boolean hasWon(WinningTicket winningTicket){
         int count = 0;
         for (int i:winningTicket.getMainNumbers()){
-            if (this.mainNums.contains(i)) count++;
+            if (this.mainNumbers.contains(i)) count++;
             if (count ==2) return true;
         }
         return false;
         
-//        boolean mainWasFound = this.mainNums.containsAll(winningTicket.getMainNumbers());
-//        boolean jokerWasFound = this.jokerNums.containsAll(winningTicket.getJokerNumbers());
+//        boolean mainWasFound = this.mainNumbers.containsAll(winningTicket.getMainNumbers());
+//        boolean jokerWasFound = this.jokerNumbers.containsAll(winningTicket.getJokerNumbers());
 //        return mainWasFound && jokerWasFound;
     }
     
@@ -135,11 +105,11 @@ public class Ticket {
         StringBuilder sb = new StringBuilder("Ticket ID: "+this.id);
         sb.append("\nTime played: "+this.time);
         sb.append("\nMain numbers: ");
-        for (int i:mainNums){
+        for (int i: mainNumbers){
             sb.append(i+" ");
         }
         sb.append("\nJokers: ");
-        for (int i:jokerNums){
+        for (int i: jokerNumbers){
             sb.append(i+" ");
         }
         sb.append("\nPrice: "+this.price+"€");

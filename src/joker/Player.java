@@ -57,8 +57,10 @@ public class Player {
        ticketLog.add(ticket);
    }
    
-   public void playRandom(int mainNumbers, int jokers){
-       RandomTicket ticket = new RandomTicket(mainNumbers, jokers);
+   public void playRandom(){
+       int mainNumbers=Validation.readMainNumbers();
+       int jokerNumbers = Validation.readJokerNumbers();
+       RandomTicket ticket = new RandomTicket(mainNumbers, jokerNumbers);
        System.out.println(ticket);
        ticketLog.add(ticket);
    }
