@@ -75,16 +75,20 @@ public abstract class Ticket {
         return result;
     }
 
-    public boolean hasWon(WinningTicket winningTicket) {
+    public boolean hasWon(WinningTicket wt) {
+        if (mainNumbers.containsAll(wt.getMainNumbers()) && jokerNumbers.containsAll(wt.getJokerNumbers())) {
+            System.out.println("Ticket with id:" + id + " has won by finding all the numbers");
+            return true;
+        }
         int count = 0;
-        for (int i : winningTicket.getMainNumbers()) {
+        for (int i : wt.getMainNumbers()) {
             if (getMainNumbers().contains(i)) count++;
-            if (count == 2) return true;
+        }
+        if (count == 4) {
+            System.out.println("Ticket with id:" + id + " has won by finding " + count + " of the main numbers");
+            return true;
         }
         return false;
-        //        boolean mainWasFound = this.mainNumbers.containsAll(winningTicket.getMainNumbers());
-//        boolean jokerWasFound = this.jokerNumbers.containsAll(winningTicket.getJokerNumbers());
-//        return mainWasFound && jokerWasFound;
     }
 
     @Override

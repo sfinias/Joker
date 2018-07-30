@@ -4,7 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
         Player player1 = new Player("Jack", "Nickolson", 1469852, "GR15248");
-        String menuMessage = "Press 1 for manual input, 2 for random ticket, 3 to check if your player has won, 4 to exit";
+        String menuMessage = "Press 1 for manual input, 2 for random ticket, 3 to check if your player has won," +
+                " 4 to show the data collected, anything else to exit";
         while (true) {
             System.out.println(menuMessage);
             int in = Validation.readInt();
@@ -17,11 +18,11 @@ public class Main {
                     break;
                 case 3:
                     WinningTicket wt = new WinningTicket();
-//                    if (player1.hasWon(wt)) {
-//                        System.out.println(player1.getFirstName() + " " + player1.getLastName() + " has won!");
-//                    } else {
-//                        System.out.println(player1.getFirstName() + " " + player1.getLastName() + " hasn't won");
-//                    }
+                    if (player1.hasWon(wt)) {
+                        System.out.println(player1.getFirstName() + " " + player1.getLastName() + " has won!");
+                    } else {
+                        System.out.println(player1.getFirstName() + " " + player1.getLastName() + " hasn't won");
+                    }
                     break;
                 case 4:
                     WinningTicket.showData();

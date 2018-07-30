@@ -64,15 +64,10 @@ public class Player {
     }
 
     public boolean hasWon(WinningTicket winningTicket) {
-        for (Object t : ticketLog) {
-            if (t instanceof ManualTicket) {
-                ManualTicket ticket = (ManualTicket) t;
-                if (ticket.hasWon(winningTicket)) return true;
-            } else {
-                RandomTicket ticket = (RandomTicket) t;
-                if (ticket.hasWon(winningTicket)) return true;
-            }
+        boolean playerHasWon = false;
+        for (Ticket t : ticketLog) {
+            if (t.hasWon(winningTicket)) playerHasWon = true;
         }
-        return false;
+        return playerHasWon;
     }
 }
