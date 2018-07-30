@@ -5,7 +5,7 @@ import java.util.Set;
 
 
 public class Player {
-    
+
     private String firstName;
     private String lastName;
     private int taxNumber;
@@ -26,7 +26,7 @@ public class Player {
     public Set<Ticket> getTicketLog() {
         return ticketLog;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -50,32 +50,29 @@ public class Player {
     public void setTaxNumber(int taxNumber) {
         this.taxNumber = taxNumber;
     }
-    
-    public void play(){
-       ManualTicket ticket = new ManualTicket();
-       System.out.println(ticket);
-       ticketLog.add(ticket);
-   }
-   
-   public void playRandom(){
-       int mainNumbers=Validation.readMainNumbers();
-       int jokerNumbers = Validation.readJokerNumbers();
-       RandomTicket ticket = new RandomTicket(mainNumbers, jokerNumbers);
-       System.out.println(ticket);
-       ticketLog.add(ticket);
-   }
-   
-   public boolean hasWon(WinningTicket winningTicket){
-       for (Object t:ticketLog){
-           if (t instanceof ManualTicket){
-               ManualTicket ticket = (ManualTicket) t;
-               if (ticket.hasWon(winningTicket)) return true;
-           }
-           else{
-               RandomTicket ticket = (RandomTicket)t;
-               if (ticket.hasWon(winningTicket)) return true;
-           }
-       }
-       return false;
-   }
+
+    public void play() {
+        ManualTicket ticket = new ManualTicket();
+        System.out.println(ticket);
+        ticketLog.add(ticket);
+    }
+
+    public void playRandom() {
+        RandomTicket ticket = new RandomTicket();
+        System.out.println(ticket);
+        ticketLog.add(ticket);
+    }
+
+    public boolean hasWon(WinningTicket winningTicket) {
+        for (Object t : ticketLog) {
+            if (t instanceof ManualTicket) {
+                ManualTicket ticket = (ManualTicket) t;
+                if (ticket.hasWon(winningTicket)) return true;
+            } else {
+                RandomTicket ticket = (RandomTicket) t;
+                if (ticket.hasWon(winningTicket)) return true;
+            }
+        }
+        return false;
+    }
 }

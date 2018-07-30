@@ -7,22 +7,26 @@ import java.util.TreeSet;
 
 public abstract class Ticket {
 
-    private Set<Integer> mainNumbers =new TreeSet<>();
-    private Set<Integer> jokerNumbers =new TreeSet<>();
+    private Set<Integer> mainNumbers = new TreeSet<>();
+    private Set<Integer> jokerNumbers = new TreeSet<>();
     private String time;
     private int id;
     private double price;
+    public static final int MAINNUMBERPOOL = 45;
+    public static final int JOKERUMBERPOOL = 20;
+    public static final int MINPICKEDMAIN = 5;
+    public static final int MINPICKEDJOKER = 1;
 
     public Ticket(int id) {
-        this.id=id;
-        this.time= timeStamp();
+        this.id = id;
+        this.time = timeStamp();
     }
 
     public Set<Integer> getMainNumbers() {
         return mainNumbers;
     }
 
-    public void setMainNumbers(Set<Integer> mainNumbers) {
+    void setMainNumbers(Set<Integer> mainNumbers) {
         this.mainNumbers = mainNumbers;
     }
 
@@ -30,7 +34,7 @@ public abstract class Ticket {
         return jokerNumbers;
     }
 
-    public void setJokerNumbers(Set<Integer> jokerNumbers) {
+    void setJokerNumbers(Set<Integer> jokerNumbers) {
         this.jokerNumbers = jokerNumbers;
     }
 
@@ -50,18 +54,20 @@ public abstract class Ticket {
         this.price = price;
     }
 
-    private String timeStamp(){
+    private String timeStamp() {
         ZonedDateTime date = ZonedDateTime.now();
         return DateTimeFormatter.ofPattern("dd/MM/uuuu kk:mm:ss").format(date);
     }
 
-    public double calculatePrice(){
-        long mainCombinations = factorial(this.mainNumbers.size())/(factorial(5)*factorial(this.mainNumbers.size()-5));
+    public double calculatePrice() {
+        long fact = 1;
+        for (int i = this.mainNumbers.size(); i > this.mainNumbers.size() - 5; i--) fact *= i;
+        long mainCombinations = fact / factorial(MINPICKEDMAIN);
         int jokerCombinations = this.jokerNumbers.size();
-        return mainCombinations*jokerCombinations*0.5;
+        return mainCombinations * jokerCombinations * 0.5;
     }
 
-    private long factorial(long n){
+    private long factorial(long n) {
         long result = 1;
         for (long i = 2; i <= n; i++) {
             result *= i;
@@ -82,18 +88,18 @@ public abstract class Ticket {
     }
 
     @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder("Ticket ID: "+this.id);
-        sb.append("\nTime played: "+this.time);
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Ticket ID: " + this.id);
+        sb.append("\nTime played: ").append(this.time);
         sb.append("\nMain numbers: ");
-        for (int i:mainNumbers){
-            sb.append(i+" ");
+        for (int i : mainNumbers) {
+            sb.append(i).append(" ");
         }
         sb.append("\nJokers: ");
-        for (int i:jokerNumbers){
-            sb.append(i+" ");
+        for (int i : jokerNumbers) {
+            sb.append(i).append(" ");
         }
-        sb.append("\nPrice: "+this.price+"€");
+        sb.append("\nPrice: ").append(this.price).append("€");
         return sb.toString();
     }
 }

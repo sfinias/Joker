@@ -1,12 +1,8 @@
 package joker;
 
-import java.util.Scanner;
 import java.util.TreeSet;
 
 public class ManualTicket extends Ticket {
-
-
-    private Scanner scanner;
 
 
     public ManualTicket() {
@@ -16,32 +12,26 @@ public class ManualTicket extends Ticket {
         setPrice(calculatePrice());
     }
 
-    private void pickMain(){
-        int max = 45;
-        int min = 1;
-        int count = 5;
-        while (true){
-            System.out.println("Type in more than " + count + " unique numbers for the main numbers in the range " + min + "-" + max);
-            setMainNumbers(Validation.readInts(min, max));
-            if (!getMainNumbers().isEmpty() && getMainNumbers().size()<5){
-                System.out.println("You must type in at least 5 numbers");
+    private void pickMain() {
+        while (true) {
+            System.out.println("Type in more than " + MINPICKEDMAIN + " unique numbers for the main numbers in the range 1-" + MAINNUMBERPOOL);
+            setMainNumbers(Validation.readInts(MAINNUMBERPOOL));
+            if (!getMainNumbers().isEmpty() && getMainNumbers().size() < MINPICKEDMAIN) {
+                System.out.println("You must type in at least " + MINPICKEDMAIN + " numbers");
                 setMainNumbers(new TreeSet<>());
-            }else if (getMainNumbers().size()>=5) {
+            } else if (getMainNumbers().size() >= MINPICKEDMAIN) {
                 break;
             }
         }
     }
-    
-    private void pickJokers(){
-        int max = 20;
-        int min = 1;
-        int count = 1;
-       while (true){
-           System.out.println("Type in more than " + count + " unique numbers for the joker in the range 1-20");
-           setJokerNumbers(Validation.readInts(min, max));
-           if (getJokerNumbers().size()>=1) {
-               break;
-           }
+
+    private void pickJokers() {
+        while (true) {
+            System.out.println("Type in more than " + MINPICKEDJOKER + " unique numbers for the joker in the range 1-" + JOKERUMBERPOOL);
+            setJokerNumbers(Validation.readInts(JOKERUMBERPOOL));
+            if (getJokerNumbers().size() >= MINPICKEDJOKER) {
+                break;
+            }
         }
     }
 }

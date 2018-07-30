@@ -23,10 +23,13 @@ public class Main {
 //                        System.out.println(player1.getFirstName() + " " + player1.getLastName() + " hasn't won");
 //                    }
                     break;
+                case 4:
+                    WinningTicket.showData();
+                    break;
                 default:
                     System.out.print("Thank you for playing!");
                     System.exit(0);
-                }
+            }
 
         }
     }

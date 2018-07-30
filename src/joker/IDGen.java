@@ -8,11 +8,11 @@ public class IDGen {
 
     private IDGen() {
         this.id = 0;
-        this.winningId=0;
+        this.winningId = 0;
     }
-    
-    public static int getID(){
-        if (instance==null){
+
+    public static int getID() {
+        if (instance == null) {
             instance = new IDGen();
         }
         instance.id++;
@@ -20,7 +20,7 @@ public class IDGen {
     }
 
     public static int getWinningId() {
-        if (instance==null){
+        if (instance == null) {
             instance = new IDGen();
         }
         instance.winningId++;
