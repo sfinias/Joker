@@ -3,6 +3,7 @@ package joker;
 import java.util.Scanner;
 import java.util.TreeSet;
 
+//Helping class that locks the user's inputs
 public class Validation {
 
     private static Scanner scanner;
@@ -10,6 +11,7 @@ public class Validation {
     private Validation() {
     }
 
+    //Reads the user's inputs and makes it sure that he has typed in a valid integer
     public static int readInt() {
         scanner = new Scanner(System.in);
         String st = scanner.nextLine();
@@ -22,6 +24,8 @@ public class Validation {
         return Integer.valueOf(st);
     }
 
+
+    //Reads the user's inputs and makes it sure that he has typed in a valid integer in range #minPicked-#maxPicked
     public static int readLimitInt(int minPicked, int maxPicked) {
         while (true) {
             int mainNumbers = readInt();
@@ -33,6 +37,7 @@ public class Validation {
         }
     }
 
+    //Reads the user's inputs and makes it sure that he has typed in valid integers in the range 1-#max
     public static TreeSet<Integer> readInts(int max) {
         TreeSet<Integer> set = new TreeSet<>();
         scanner = new Scanner(System.in);

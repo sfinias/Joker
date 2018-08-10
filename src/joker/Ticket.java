@@ -59,11 +59,16 @@ public abstract class Ticket {
         return DateTimeFormatter.ofPattern("dd/MM/uuuu kk:mm:ss").format(date);
     }
 
+    //Calculates the price for the ticket by using the combinations without repetitions formula
+    //n!/r!*(n-r)!
+    //Adjusted the code to avoid excessive loops
     public double calculatePrice() {
         long fact = 1;
-        for (int i = this.mainNumbers.size(); i > this.mainNumbers.size() - 5; i--) fact *= i;
+        for (int i = this.mainNumbers.size(); i > this.mainNumbers.size() - MINPICKEDMAIN; i--) fact *= i;
         long mainCombinations = fact / factorial(MINPICKEDMAIN);
-        int jokerCombinations = this.jokerNumbers.size();
+        long factj = 1;
+        for (int i = this.jokerNumbers.size(); i > this.jokerNumbers.size() - MINPICKEDJOKER; i--) factj *= i;
+        long jokerCombinations = factj / factorial(MINPICKEDJOKER);
         return mainCombinations * jokerCombinations * 0.5;
     }
 
@@ -75,6 +80,8 @@ public abstract class Ticket {
         return result;
     }
 
+    //Checks if this ticket has won by finding either all of the main numbers and jokers of the winning ticket
+    //or by finding 4 of the main numbers
     public boolean hasWon(WinningTicket wt) {
         if (mainNumbers.containsAll(wt.getMainNumbers()) && jokerNumbers.containsAll(wt.getJokerNumbers())) {
             System.out.println("Ticket with id:" + id + " has won by finding all the numbers");

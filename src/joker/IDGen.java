@@ -1,6 +1,7 @@
 package joker;
 
-
+//Singleton class that generates unique IDs for tickets
+//We track differently the IDs for the tickets created by the player and the winning tickets
 public class IDGen {
     private static IDGen instance;
     private int id;

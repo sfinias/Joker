@@ -23,6 +23,9 @@ public class RandomTicket extends Ticket {
         setJokerNumbers(jokerSet);
     }
 
+    //Picks random #pickedNumbers unique numbers from 1 to #poolSize
+    //The list pool is filled with these numbers and then it randomly picks a random number from the list,
+    //adds it to the set and deletes it from the list
     private Set<Integer> spinTheWheel(int poolSize, int pickedNumbers) {
         List<Integer> pool = new ArrayList<>();
         for (int i = 1; i <= poolSize; i++) {
